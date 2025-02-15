@@ -59,10 +59,17 @@ async function getIPFSContent(cid: string): Promise<string> {
 }
 
 const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number, taskName: string) => {
+    // TODO: use LLM to check whether to approve
+    const contractApproved = Boolean(taskName.length % 2);
+
+    signAndRespondToTaskWithResult(contractApproved, taskIndex, taskCreatedBlock, taskName)
+};
+
+const signAndRespondToTaskWithResult = async (result: boolean, taskIndex: number, taskCreatedBlock: number, taskName: string) => {
     const ipfsContent = await getIPFSContent(taskName);
 
     // TODO: use LLM to check whether to approve
-    const contractApproved = Boolean(taskName.length % 2);
+    const contractApproved = Boolean(result);
 
     const message = `Checking Claim #${taskIndex}. Block: ${taskCreatedBlock}.
     
@@ -163,6 +170,8 @@ const monitorNewTasks = async () => {
         console.log(`New task detected: Hello, ${task.name}`);
         // TODO: provide signAndRespondToTask with all the relevant task parameters
         await signAndRespondToTask(taskIndex, task.taskCreatedBlock, task.name);
+        // await signAndRespondToTaskWithResult(true, taskIndex, task.taskCreatedBlock, task.name);
+        // await signAndRespondToTaskWithResult(false, taskIndex, task.taskCreatedBlock, task.name);
     });
 
     // TODO: add taskresponded handler to know whether claim is approved or denied

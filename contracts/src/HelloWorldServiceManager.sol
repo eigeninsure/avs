@@ -91,7 +91,7 @@ contract HelloWorldServiceManager is ECDSAServiceManagerBase, IHelloWorldService
         bytes memory signature,
         bool isApproved
     ) external {
-        uint8 approvalThreshold = 1;
+        uint8 approvalThreshold = 2;
         // check that the task is valid, hasn't been responsed yet, and is being responded in time
         require(
             keccak256(abi.encode(task)) == allTaskHashes[referenceTaskIndex],
@@ -115,6 +115,7 @@ contract HelloWorldServiceManager is ECDSAServiceManagerBase, IHelloWorldService
         // If we have x responses, emit the approval rate
         if (taskResponseCount[referenceTaskIndex] == approvalThreshold) {
             uint8 approvalRate = uint8((taskApprovalCount[referenceTaskIndex] * 100) / approvalThreshold);
+            
             // Store response
             allTaskResponses[msg.sender][referenceTaskIndex] = signature;
             
