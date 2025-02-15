@@ -21,7 +21,7 @@ const helloWorldServiceManager = new ethers.Contract(helloWorldServiceManagerAdd
 
 // Function to generate random names
 function generateRandomName(): string {
-    const adjectives = ['bafkreiepinbumzepnoln7co5vea4kf3lcctnqolb3u6bvsellgznymt2uq'];
+    const adjectives = ['bafkreiepinbumzepnoln7co5vea4kf3lcctnqolb3u6bvsellgznymt2uq','QmbJWAESqCsf4RFCqEY7jecCashj8usXiyDNfKtZCwwzGb','QmTwRkpaK31VDeoUbxKamhFCTpZJg7Wc1MMAYXc4hBuWTw','Qme3y7a62idzexE9fVzGCeiRQXGbTPc12of9JyUCUTChE7'];
     const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
     const randomName = `${adjective}`;
     return randomName;
