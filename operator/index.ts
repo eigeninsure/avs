@@ -2,22 +2,6 @@ import * as dotenv from "dotenv";
 
 import { ethers } from "ethers";
 
-async function getIPFSContent(cid: string): Promise<string> {
-    try {
-        // Using ipfs.io gateway - you can replace with other gateways if needed
-        const response = await fetch(`https://ipfs.io/ipfs/${cid}`);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const content = await response.text();
-        return content;
-    } catch (error: any) {
-        console.error(`Failed to fetch IPFS content for CID ${cid}:`, error);
-        return `Error fetching IPFS content: ${error.message}`;
-    }
-}
 const fs = require('fs');
 const path = require('path');
 dotenv.config();
@@ -57,6 +41,22 @@ const helloWorldServiceManager = new ethers.Contract(helloWorldServiceManagerAdd
 const ecdsaRegistryContract = new ethers.Contract(ecdsaStakeRegistryAddress, ecdsaRegistryABI, wallet);
 const avsDirectory = new ethers.Contract(avsDirectoryAddress, avsDirectoryABI, wallet);
 
+// get text content from IPFS CID
+async function getIPFSContent(cid: string): Promise<string> {
+    try {
+        const response = await fetch(`https://ipfs.io/ipfs/${cid}`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const content = await response.text();
+        return content;
+    } catch (error: any) {
+        console.error(`Failed to fetch IPFS content for CID ${cid}:`, error);
+        return `Error fetching IPFS content: ${error.message}`;
+    }
+}
 
 const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number, taskName: string) => {
     const ipfsContent = await getIPFSContent(taskName);
