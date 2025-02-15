@@ -2,6 +2,22 @@ import * as dotenv from "dotenv";
 
 import { ethers } from "ethers";
 
+async function getIPFSContent(cid: string): Promise<string> {
+    try {
+        // Using ipfs.io gateway - you can replace with other gateways if needed
+        const response = await fetch(`https://ipfs.io/ipfs/${cid}`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const content = await response.text();
+        return content;
+    } catch (error: any) {
+        console.error(`Failed to fetch IPFS content for CID ${cid}:`, error);
+        return `Error fetching IPFS content: ${error.message}`;
+    }
+}
 const fs = require('fs');
 const path = require('path');
 dotenv.config();
@@ -43,13 +59,16 @@ const avsDirectory = new ethers.Contract(avsDirectoryAddress, avsDirectoryABI, w
 
 
 const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number, taskName: string) => {
+    const ipfsContent = await getIPFSContent(taskName);
+
     const message = `Checking Claim #${taskIndex}. Block: ${taskCreatedBlock}.
     
 IPFS CID: ${taskName} 
 
-IPFS Information: test
+IPFS Information: ${ipfsContent}
 
 Status: ${taskName.length % 2 ? "Approved" : "Rejected"}`;
+  
     const messageHash = ethers.solidityPackedKeccak256(["string"], [message]);
     const messageBytes = ethers.getBytes(messageHash);
     const signature = await wallet.signMessage(messageBytes);

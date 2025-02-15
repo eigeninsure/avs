@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 
 import { ethers } from "ethers";
+
 const fs = require('fs');
 const path = require('path');
 dotenv.config();
@@ -20,11 +21,9 @@ const helloWorldServiceManager = new ethers.Contract(helloWorldServiceManagerAdd
 
 // Function to generate random names
 function generateRandomName(): string {
-    const adjectives = ['Quick', 'Lazy', 'Sleepy', 'Noisy', 'Hungry'];
-    const nouns = ['Fox', 'Dog', 'Cat', 'Mouse', 'Bear'];
+    const adjectives = ['bafkreiepinbumzepnoln7co5vea4kf3lcctnqolb3u6bvsellgznymt2uq'];
     const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const noun = nouns[Math.floor(Math.random() * nouns.length)];
-    const randomName = `${adjective}${noun}${Math.floor(Math.random() * 1000)}`;
+    const randomName = `${adjective}`;
     return randomName;
   }
 
