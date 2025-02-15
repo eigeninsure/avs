@@ -99,24 +99,29 @@ contract HelloWorldServiceManager is
             allTaskResponses[msg.sender][referenceTaskIndex].length == 0,
             "Operator has already responded to the task"
         );
+        require(
+            taskResponseCount[referenceTaskIndex] <= approvalThreshold,
+            "Approval Threshold has already been met."
+        );
 
-        // Increment response counter
-        taskResponseCount[referenceTaskIndex]++;
+        unchecked {
+            // Increment response counter
+            taskResponseCount[referenceTaskIndex]++;
 
-        // If approved, increment approval counter
-        if (isApproved) {
-            taskApprovalCount[referenceTaskIndex]++;
+            // If approved, increment approval counter
+            if (isApproved) {
+                taskApprovalCount[referenceTaskIndex]++;
+            }
         }
-
-        // If we have task.requiredValidatorResponses responses, emit the approval rate
-        if (
-            taskResponseCount[referenceTaskIndex] ==
-            task.requiredValidatorResponses
-        ) {
+        // If we have x responses, emit the approval rate
+        if (taskResponseCount[referenceTaskIndex] == approvalThreshold) {
             uint8 approvalRate = uint8(
                 (taskApprovalCount[referenceTaskIndex] * 100) /
-                    task.requiredValidatorResponses
+                    approvalThreshold
             );
+
+            // Store response
+            allTaskResponses[msg.sender][referenceTaskIndex] = signature;
 
             // Emit approval rate of task response
             emit TaskResponded(approvalRate, task, msg.sender);

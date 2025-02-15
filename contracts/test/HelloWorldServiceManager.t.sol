@@ -331,8 +331,9 @@ contract HelloWorldTaskManagerSetup is Test {
             uint32(block.number)
         );
 
-        IHelloWorldServiceManager(helloWorldDeployment.helloWorldServiceManager)
-            .respondToTask(task, referenceTaskIndex, signedTask);
+        IHelloWorldServiceManager(helloWorldDeployment.helloWorldServiceManager).respondToTask(
+            task, referenceTaskIndex, signedTask, true
+        );
     }
 }
 
@@ -574,7 +575,7 @@ contract RespondToTask is HelloWorldTaskManagerSetup {
             uint32(block.number)
         );
 
-        vm.roll(block.number + 1);
+        vm.roll(block.number+1);
         sm.respondToTask(newTask, taskIndex, signedTask);
     }
 }

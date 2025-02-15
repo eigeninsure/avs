@@ -96,7 +96,7 @@ Status: ${contractApproved}`;
         { name: taskName, taskCreatedBlock: taskCreatedBlock },
         taskIndex,
         signedTask,
-        contractApproved
+        contractApproved,
     );
     await tx.wait();
     console.log(`Responded to task.`);
