@@ -61,13 +61,16 @@ async function getIPFSContent(cid: string): Promise<string> {
 const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number, taskName: string) => {
     const ipfsContent = await getIPFSContent(taskName);
 
+    // TODO: use LLM to check whether to approve
+    const contractApproved = taskName.length % 2 ? "Approved" : "Rejected";
+
     const message = `Checking Claim #${taskIndex}. Block: ${taskCreatedBlock}.
     
 IPFS CID: ${taskName} 
 
 IPFS Information: ${ipfsContent}
 
-Status: ${taskName.length % 2 ? "Approved" : "Rejected"}`;
+Status: ${contractApproved}`;
   
     const messageHash = ethers.solidityPackedKeccak256(["string"], [message]);
     const messageBytes = ethers.getBytes(messageHash);
@@ -162,6 +165,9 @@ const monitorNewTasks = async () => {
     });
 
     // TODO: add taskresponded handler to know whether claim is approved or denied
+    helloWorldServiceManager.on("TaskResponded", async (taskIndex: number, task: any, operator: string) => {
+        console.log(`Task Completed: ${task.name}`);
+    });
 
     console.log("Monitoring for new tasks...");
 };
