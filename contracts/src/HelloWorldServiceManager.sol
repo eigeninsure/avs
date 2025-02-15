@@ -31,6 +31,10 @@ contract HelloWorldServiceManager is ECDSAServiceManagerBase, IHelloWorldService
     // mapping of task indices to hash of abi.encode(taskResponse, taskResponseMetadata)
     mapping(address => mapping(uint32 => bytes)) public allTaskResponses;
 
+    // Add mappings for tracking responses and approvals
+    mapping(uint32 => uint8) public taskResponseCount;
+    mapping(uint32 => uint8) public taskApprovalCount;
+
     modifier onlyOperator() {
         require(
             ECDSAStakeRegistry(stakeRegistry).operatorRegistered(msg.sender),
@@ -85,8 +89,9 @@ contract HelloWorldServiceManager is ECDSAServiceManagerBase, IHelloWorldService
         Task calldata task,
         uint32 referenceTaskIndex,
         bytes memory signature,
-        bool isApproved  // New parameter
+        bool isApproved
     ) external {
+        uint8 approvalThreshold = 1;
         // check that the task is valid, hasn't been responsed yet, and is being responded in time
         require(
             keccak256(abi.encode(task)) == allTaskHashes[referenceTaskIndex],
@@ -98,15 +103,23 @@ contract HelloWorldServiceManager is ECDSAServiceManagerBase, IHelloWorldService
             "Operator has already responded to the task"
         );
 
-        // Store response
-        allTaskResponses[msg.sender][referenceTaskIndex] = signature;
-
+        
+        // Increment response counter
+        taskResponseCount[referenceTaskIndex]++;
+        
+        // If approved, increment approval counter
         if (isApproved) {
-            // emitting event
-            emit TaskResponded(referenceTaskIndex, task, msg.sender);
-        } else {
-            // emitting event
-            emit TaskResponded(0, task, msg.sender);
+            taskApprovalCount[referenceTaskIndex]++;
+        }
+
+        // If we have x responses, emit the approval rate
+        if (taskResponseCount[referenceTaskIndex] == approvalThreshold) {
+            uint8 approvalRate = uint8((taskApprovalCount[referenceTaskIndex] * 100) / approvalThreshold);
+            // Store response
+            allTaskResponses[msg.sender][referenceTaskIndex] = signature;
+            
+            // Emit approval rate of task response
+            emit TaskResponded(approvalRate, task, msg.sender);
         }
     }
 
