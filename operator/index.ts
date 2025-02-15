@@ -62,7 +62,7 @@ const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number,
     const ipfsContent = await getIPFSContent(taskName);
 
     // TODO: use LLM to check whether to approve
-    const contractApproved = taskName.length % 2 ? "Approved" : "Rejected";
+    const contractApproved = Boolean(taskName.length % 2);
 
     const message = `Checking Claim #${taskIndex}. Block: ${taskCreatedBlock}.
     
@@ -88,7 +88,8 @@ Status: ${contractApproved}`;
     const tx = await helloWorldServiceManager.respondToTask(
         { name: taskName, taskCreatedBlock: taskCreatedBlock },
         taskIndex,
-        signedTask
+        signedTask,
+        contractApproved
     );
     await tx.wait();
     console.log(`Responded to task.`);
@@ -166,7 +167,7 @@ const monitorNewTasks = async () => {
 
     // TODO: add taskresponded handler to know whether claim is approved or denied
     helloWorldServiceManager.on("TaskResponded", async (taskIndex: number, task: any, operator: string) => {
-        console.log(`Task Completed: ${task.name}`);
+        console.log(`Task Responded. ${taskIndex}, ${task.name}, ${operator}`);
     });
 
     console.log("Monitoring for new tasks...");

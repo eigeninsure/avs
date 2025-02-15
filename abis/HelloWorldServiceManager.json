@@ -394,6 +394,11 @@
         "name": "signature",
         "type": "bytes",
         "internalType": "bytes"
+      },
+      {
+        "name": "isApproved",
+        "type": "bool",
+        "internalType": "bool"
       }
     ],
     "outputs": [],

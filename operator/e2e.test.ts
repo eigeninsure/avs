@@ -1,11 +1,13 @@
-import { createAnvil, Anvil } from "@viem/anvil";
-import { describe, beforeAll, afterAll, it, expect } from '@jest/globals';
+import * as dotenv from "dotenv";
+
+import { Anvil, createAnvil } from "@viem/anvil";
+import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
+
+import { ethers } from "ethers";
 import { exec } from 'child_process';
 import fs from 'fs/promises';
 import path from 'path';
 import util from 'util';
-import { ethers } from "ethers";
-import * as dotenv from "dotenv";
 
 dotenv.config();
 
@@ -139,7 +141,8 @@ describe('Operator Functionality', () => {
     const tx = await helloWorldServiceManager.respondToTask(
         { name: taskName, taskCreatedBlock: taskCreatedBlock },
         taskIndex,
-        signedTask
+        signedTask,
+        true
     );
     await tx.wait();
   });
