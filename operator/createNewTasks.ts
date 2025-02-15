@@ -1,5 +1,6 @@
-import { ethers } from "ethers";
 import * as dotenv from "dotenv";
+
+import { ethers } from "ethers";
 const fs = require('fs');
 const path = require('path');
 dotenv.config();
@@ -47,7 +48,7 @@ function startCreatingTasks() {
     const randomName = generateRandomName();
     console.log(`Creating new task with name: ${randomName}`);
     createNewTask(randomName);
-  }, 24000);
+  }, 5000);
 }
 
 // Start the process
