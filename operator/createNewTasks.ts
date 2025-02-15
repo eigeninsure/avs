@@ -20,11 +20,10 @@ const helloWorldServiceManager = new ethers.Contract(helloWorldServiceManagerAdd
 
 
 // Function to generate random names
-function generateRandomName(): string {
-    const adjectives = ['bafkreiepinbumzepnoln7co5vea4kf3lcctnqolb3u6bvsellgznymt2uq','QmbJWAESqCsf4RFCqEY7jecCashj8usXiyDNfKtZCwwzGb','QmTwRkpaK31VDeoUbxKamhFCTpZJg7Wc1MMAYXc4hBuWTw','Qme3y7a62idzexE9fVzGCeiRQXGbTPc12of9JyUCUTChE7'];
-    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const randomName = `${adjective}`;
-    return randomName;
+function generateRandomIpfsCIDs(): string {
+    const ipfsCIDs = ['bafkreiepinbumzepnoln7co5vea4kf3lcctnqolb3u6bvsellgznymt2uq','QmbJWAESqCsf4RFCqEY7jecCashj8usXiyDNfKtZCwwzGb','QmTwRkpaK31VDeoUbxKamhFCTpZJg7Wc1MMAYXc4hBuWTw','Qme3y7a62idzexE9fVzGCeiRQXGbTPc12of9JyUCUTChE7'];
+    const ipfsCID = ipfsCIDs[Math.floor(Math.random() * ipfsCIDs.length)];
+    return ipfsCID;
   }
 
 async function createNewTask(taskName: string) {
@@ -44,9 +43,9 @@ async function createNewTask(taskName: string) {
 // Function to create a new task with a random name every 15 seconds
 function startCreatingTasks() {
   setInterval(() => {
-    const randomName = generateRandomName();
-    console.log(`Creating new task with name: ${randomName}`);
-    createNewTask(randomName);
+    const ipfsCID = generateRandomIpfsCIDs();
+    console.log(`Creating new task with IPFS CID: ${ipfsCID}`);
+    createNewTask(ipfsCID);
   }, 5000);
 }
 
