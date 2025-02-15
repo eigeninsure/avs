@@ -59,8 +59,8 @@ async function getIPFSContent(cid: string): Promise<string> {
 }
 
 const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number, taskName: string) => {
-    // TODO: use LLM to check whether to approve
-    const contractApproved = Boolean(taskName.length % 2);
+    // Generate a random boolean
+    const contractApproved = Boolean(Math.random() < 0.5);
 
     signAndRespondToTaskWithResult(contractApproved, taskIndex, taskCreatedBlock, taskName)
 };
@@ -75,7 +75,7 @@ const signAndRespondToTaskWithResult = async (result: boolean, taskIndex: number
     
 IPFS CID: ${taskName} 
 
-IPFS Information: ${ipfsContent}
+IPFS Information: ${ipfsContent.slice(0,100)}
 
 Status: ${contractApproved}`;
   
@@ -176,7 +176,7 @@ const monitorNewTasks = async () => {
 
     // TODO: add taskresponded handler to know whether claim is approved or denied
     helloWorldServiceManager.on("TaskResponded", async (taskIndex: number, task: any, operator: string) => {
-        console.log(`Task Responded. ${taskIndex}, ${task.name}, ${operator}`);
+        console.log(`---Task Responded. ${taskIndex}, ${task.name}, ${operator}---`);
     });
 
     console.log("Monitoring for new tasks...");
