@@ -43,7 +43,13 @@ const avsDirectory = new ethers.Contract(avsDirectoryAddress, avsDirectoryABI, w
 
 
 const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number, taskName: string) => {
-    const message = `Claim: ${taskName}. Status: ${taskName.length % 2 ? "Approved" : "Rejected"}`;
+    const message = `Checking Claim #${taskIndex}. Block: ${taskCreatedBlock}.
+    
+IPFS CID: ${taskName} 
+
+IPFS Information: test
+
+Status: ${taskName.length % 2 ? "Approved" : "Rejected"}`;
     const messageHash = ethers.solidityPackedKeccak256(["string"], [message]);
     const messageBytes = ethers.getBytes(messageHash);
     const signature = await wallet.signMessage(messageBytes);

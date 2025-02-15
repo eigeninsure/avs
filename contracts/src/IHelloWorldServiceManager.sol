@@ -7,7 +7,7 @@ interface IHelloWorldServiceManager {
     event TaskResponded(uint32 indexed taskIndex, Task task, address operator);
 
     struct Task {
-        string name;
+        string name; // ipfs cid
         uint32 taskCreatedBlock;
     }
 
