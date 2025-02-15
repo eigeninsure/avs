@@ -29,7 +29,7 @@ function generateRandomIpfsCIDs(): string {
 async function createNewTask(taskName: string) {
   try {
     // Send a transaction to the createNewTask function
-    const tx = await helloWorldServiceManager.createNewTask(taskName);
+    const tx = await helloWorldServiceManager.createNewTask(taskName, 1);
     
     // Wait for the transaction to be mined
     const receipt = await tx.wait();

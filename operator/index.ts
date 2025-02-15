@@ -58,14 +58,14 @@ async function getIPFSContent(cid: string): Promise<string> {
     }
 }
 
-const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number, taskName: string) => {
+const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number, taskName: string, requiredValidatorResponses: number) => {
     // Generate a random boolean
     const contractApproved = Boolean(Math.random() < 0.5);
 
-    signAndRespondToTaskWithResult(contractApproved, taskIndex, taskCreatedBlock, taskName)
+    signAndRespondToTaskWithResult(contractApproved, taskIndex, taskCreatedBlock, taskName, requiredValidatorResponses)
 };
 
-const signAndRespondToTaskWithResult = async (result: boolean, taskIndex: number, taskCreatedBlock: number, taskName: string) => {
+const signAndRespondToTaskWithResult = async (result: boolean, taskIndex: number, taskCreatedBlock: number, taskName: string, requiredValidatorResponses: number) => {
     const ipfsContent = await getIPFSContent(taskName);
 
     // TODO: use LLM to check whether to approve
@@ -93,7 +93,7 @@ Status: ${contractApproved}`;
     );
 
     const tx = await helloWorldServiceManager.respondToTask(
-        { name: taskName, taskCreatedBlock: taskCreatedBlock },
+        { name: taskName, requiredValidatorResponses: requiredValidatorResponses, taskCreatedBlock: taskCreatedBlock },
         taskIndex,
         signedTask,
         contractApproved,
@@ -169,7 +169,7 @@ const monitorNewTasks = async () => {
     helloWorldServiceManager.on("NewTaskCreated", async (taskIndex: number, task: any) => {
         console.log(`New task detected: Hello, ${task.name}`);
         // TODO: provide signAndRespondToTask with all the relevant task parameters
-        await signAndRespondToTask(taskIndex, task.taskCreatedBlock, task.name);
+        await signAndRespondToTask(taskIndex, task.taskCreatedBlock, task.name, task.requiredValidatorResponses);
         // await signAndRespondToTaskWithResult(true, taskIndex, task.taskCreatedBlock, task.name);
         // await signAndRespondToTaskWithResult(false, taskIndex, task.taskCreatedBlock, task.name);
     });

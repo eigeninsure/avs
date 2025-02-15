@@ -68,7 +68,8 @@ contract HelloWorldServiceManager is
     /* FUNCTIONS */
     // NOTE: this function creates new task, assigns it a taskId
     function createNewTask(
-        string memory name
+        string memory name,
+        uint8 requiredValidatorResponses
     )
         external
         returns (
@@ -76,10 +77,9 @@ contract HelloWorldServiceManager is
             Task memory
         )
     {
-        // TODO: create a new task struct
         Task memory newTask;
         newTask.name = name;
-        // TODO: initialize insurance claim parameters here
+        newTask.requiredValidatorResponses = requiredValidatorResponses;
         newTask.taskCreatedBlock = uint32(block.number);
 
         // store hash of task onchain, emit event, and increase taskNum
@@ -96,7 +96,7 @@ contract HelloWorldServiceManager is
         bytes memory signature,
         bool isApproved
     ) external {
-        uint8 approvalThreshold = 3;
+        uint8 approvalThreshold = task.requiredValidatorResponses;
         // check that the task is valid, hasn't been responsed yet, and is being responded in time
         require(
             keccak256(abi.encode(task)) == allTaskHashes[referenceTaskIndex],

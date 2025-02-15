@@ -141,6 +141,11 @@
         "name": "name",
         "type": "string",
         "internalType": "string"
+      },
+      {
+        "name": "requiredValidatorResponses",
+        "type": "uint8",
+        "internalType": "uint8"
       }
     ],
     "outputs": [
@@ -153,6 +158,11 @@
             "name": "name",
             "type": "string",
             "internalType": "string"
+          },
+          {
+            "name": "requiredValidatorResponses",
+            "type": "uint8",
+            "internalType": "uint8"
           },
           {
             "name": "taskCreatedBlock",
@@ -379,6 +389,11 @@
             "internalType": "string"
           },
           {
+            "name": "requiredValidatorResponses",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
             "name": "taskCreatedBlock",
             "type": "uint32",
             "internalType": "uint32"
@@ -555,6 +570,11 @@
             "internalType": "string"
           },
           {
+            "name": "requiredValidatorResponses",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
             "name": "taskCreatedBlock",
             "type": "uint32",
             "internalType": "uint32"
@@ -622,6 +642,11 @@
             "name": "name",
             "type": "string",
             "internalType": "string"
+          },
+          {
+            "name": "requiredValidatorResponses",
+            "type": "uint8",
+            "internalType": "uint8"
           },
           {
             "name": "taskCreatedBlock",

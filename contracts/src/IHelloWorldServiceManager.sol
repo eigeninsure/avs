@@ -8,6 +8,7 @@ interface IHelloWorldServiceManager {
 
     struct Task {
         string name; // ipfs cid
+        uint8 requiredValidatorResponses;
         uint32 taskCreatedBlock;
     }
 
@@ -23,7 +24,8 @@ interface IHelloWorldServiceManager {
     ) external view returns (bytes memory);
 
     function createNewTask(
-        string memory name
+        string memory name,
+        uint8 requiredValidatorResponses
     ) external returns (Task memory);
 
     function respondToTask(
