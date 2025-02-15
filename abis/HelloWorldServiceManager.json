@@ -141,11 +141,6 @@
         "name": "name",
         "type": "string",
         "internalType": "string"
-      },
-      {
-        "name": "ipfsUrl",
-        "type": "string",
-        "internalType": "string"
       }
     ],
     "outputs": [
@@ -156,11 +151,6 @@
         "components": [
           {
             "name": "name",
-            "type": "string",
-            "internalType": "string"
-          },
-          {
-            "name": "ipfsUrl",
             "type": "string",
             "internalType": "string"
           },
@@ -389,11 +379,6 @@
             "internalType": "string"
           },
           {
-            "name": "ipfsUrl",
-            "type": "string",
-            "internalType": "string"
-          },
-          {
             "name": "taskCreatedBlock",
             "type": "uint32",
             "internalType": "uint32"
@@ -527,11 +512,6 @@
             "internalType": "string"
           },
           {
-            "name": "ipfsUrl",
-            "type": "string",
-            "internalType": "string"
-          },
-          {
             "name": "taskCreatedBlock",
             "type": "uint32",
             "internalType": "uint32"
@@ -597,11 +577,6 @@
         "components": [
           {
             "name": "name",
-            "type": "string",
-            "internalType": "string"
-          },
-          {
-            "name": "ipfsUrl",
             "type": "string",
             "internalType": "string"
           },

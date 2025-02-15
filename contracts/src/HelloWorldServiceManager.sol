@@ -64,15 +64,12 @@ contract HelloWorldServiceManager is ECDSAServiceManagerBase, IHelloWorldService
     /* FUNCTIONS */
     // NOTE: this function creates new task, assigns it a taskId
     function createNewTask(
-        string memory name,
-        string memory ipfsUrl
+        string memory name
         // TODO: add insurance claim details
     ) external returns (Task memory) {
         // TODO: create a new task struct
         Task memory newTask;
         newTask.name = name;
-        newTask.ipfsUrl = ipfsUrl;
-
         // TODO: initialize insurance claim parameters here
         newTask.taskCreatedBlock = uint32(block.number);
 
