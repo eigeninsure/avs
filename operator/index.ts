@@ -42,7 +42,7 @@ const ecdsaRegistryContract = new ethers.Contract(ecdsaStakeRegistryAddress, ecd
 const avsDirectory = new ethers.Contract(avsDirectoryAddress, avsDirectoryABI, wallet);
 
 
-const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number, taskName: string) => {
+const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number, taskName: string, taskIpfsUrl: string) => {
     const message = `Hello, ${taskName}`;
     const messageHash = ethers.solidityPackedKeccak256(["string"], [message]);
     const messageBytes = ethers.getBytes(messageHash);
@@ -54,7 +54,7 @@ const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number,
     const signatures = [signature];
     const signedTask = ethers.AbiCoder.defaultAbiCoder().encode(
         ["address[]", "bytes[]", "uint32"],
-        [operators, signatures, ethers.toBigInt(await provider.getBlockNumber()-1)]
+        [operators, signatures, ethers.toBigInt(await provider.getBlockNumber() - 1)]
     );
 
     const tx = await helloWorldServiceManager.respondToTask(
@@ -67,7 +67,7 @@ const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number,
 };
 
 const registerOperator = async () => {
-    
+
     // Registers as an Operator in EigenLayer.
     try {
         const tx1 = await delegationManager.registerAsOperator({
@@ -80,7 +80,7 @@ const registerOperator = async () => {
     } catch (error) {
         console.error("Error in registering as operator:", error);
     }
-    
+
     const salt = ethers.hexlify(ethers.randomBytes(32));
     const expiry = Math.floor(Date.now() / 1000) + 3600; // Example expiry, 1 hour from now
 
@@ -93,13 +93,13 @@ const registerOperator = async () => {
 
     // Calculate the digest hash, which is a unique value representing the operator, avs, unique value (salt) and expiration date.
     const operatorDigestHash = await avsDirectory.calculateOperatorAVSRegistrationDigestHash(
-        wallet.address, 
-        await helloWorldServiceManager.getAddress(), 
-        salt, 
+        wallet.address,
+        await helloWorldServiceManager.getAddress(),
+        salt,
         expiry
     );
     console.log(operatorDigestHash);
-    
+
     // Sign the digest hash with the operator's private key
     console.log("Signing digest hash with operator's private key");
     const operatorSigningKey = new ethers.SigningKey(process.env.PRIVATE_KEY!);
@@ -110,7 +110,7 @@ const registerOperator = async () => {
 
     console.log("Registering Operator to AVS Registry contract");
 
-    
+
     // Register Operator to AVS
     // Per release here: https://github.com/Layr-Labs/eigenlayer-middleware/blob/v0.2.1-mainnet-rewards/src/unaudited/ECDSAStakeRegistry.sol#L49
     const tx2 = await ecdsaRegistryContract.registerOperatorWithSignature(
@@ -128,7 +128,7 @@ const monitorNewTasks = async () => {
     helloWorldServiceManager.on("NewTaskCreated", async (taskIndex: number, task: any) => {
         console.log(`New task detected: Hello, ${task.name}`);
         // TODO: provide signAndRespondToTask with all the relevant task parameters
-        await signAndRespondToTask(taskIndex, task.taskCreatedBlock, task.name);
+        await signAndRespondToTask(taskIndex, task.taskCreatedBlock, task.name, task.taskIpfsUrl);
     });
 
     // TODO: add taskresponded handler to know whether claim is approved or denied
