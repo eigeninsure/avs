@@ -43,12 +43,12 @@ const avsDirectory = new ethers.Contract(avsDirectoryAddress, avsDirectoryABI, w
 
 
 const signAndRespondToTask = async (taskIndex: number, taskCreatedBlock: number, taskName: string) => {
-    const message = `Hello, ${taskName}`;
+    const message = `2Hello, ${taskName}`;
     const messageHash = ethers.solidityPackedKeccak256(["string"], [message]);
     const messageBytes = ethers.getBytes(messageHash);
     const signature = await wallet.signMessage(messageBytes);
 
-    console.log(`Signing and responding to task ${taskIndex}`);
+    console.log(`Signing and responding to task ${taskIndex} with ${message}`);
 
     const operators = [await wallet.getAddress()];
     const signatures = [signature];
@@ -110,7 +110,11 @@ const registerOperator = async () => {
 
     console.log("Registering Operator to AVS Registry contract");
 
-    
+    const isOperator = await delegationManager.isOperator(wallet.address);
+    if (isOperator)  {
+        console.log("Already registered as operator in EigenLayer");
+        return
+    }
     // Register Operator to AVS
     // Per release here: https://github.com/Layr-Labs/eigenlayer-middleware/blob/v0.2.1-mainnet-rewards/src/unaudited/ECDSAStakeRegistry.sol#L49
     const tx2 = await ecdsaRegistryContract.registerOperatorWithSignature(

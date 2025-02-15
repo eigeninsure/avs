@@ -98,12 +98,12 @@ contract HelloWorldServiceManager is ECDSAServiceManagerBase, IHelloWorldService
 
         // The message that was signed
         // TODO: change the isValidSignature check.
-        bytes32 messageHash = keccak256(abi.encodePacked("Hello, ", task.name));
-        bytes32 ethSignedMessageHash = messageHash.toEthSignedMessageHash();
-        bytes4 magicValue = IERC1271Upgradeable.isValidSignature.selector;
-        if (!(magicValue == ECDSAStakeRegistry(stakeRegistry).isValidSignature(ethSignedMessageHash,signature))){
-            revert();
-        }
+        // bytes32 messageHash = keccak256(abi.encodePacked("Hello, ", task.name));
+        // bytes32 ethSignedMessageHash = messageHash.toEthSignedMessageHash();
+        // bytes4 magicValue = IERC1271Upgradeable.isValidSignature.selector;
+        // if (!(magicValue == ECDSAStakeRegistry(stakeRegistry).isValidSignature(ethSignedMessageHash,signature))){
+        //     revert();
+        // }
 
         // updating the storage with task responses
         allTaskResponses[msg.sender][referenceTaskIndex] = signature;
