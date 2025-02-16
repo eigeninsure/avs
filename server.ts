@@ -9,12 +9,12 @@ app.use(cors());
 // Add REST endpoint
 app.post('/api/tasks', async (req: any, res: any) => {
   try {
-    const { taskName } = req.body;
+    const { taskName, voteThreshold } = req.body;
     if (!taskName) {
       return res.status(400).json({ error: 'taskName is required' });
     }
     
-    const txHash = await createNewTask(taskName);
+    const txHash = await createNewTask(taskName, voteThreshold);
     res.json({ 
       success: true, 
       txHash,
