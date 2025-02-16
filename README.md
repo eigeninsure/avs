@@ -77,8 +77,10 @@ npm run deploy:hello-world
 # (Optional) Update ABIs
 npm run extract:abis
 
-# Start the Operator application
-npm run start:operator
+# run the three operators individually in their own terminal
+ts-node operator/index.ts
+ts-node operator/index2.ts
+ts-node operator/index3.ts
 
 ```
 
