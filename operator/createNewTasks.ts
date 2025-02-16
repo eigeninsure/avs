@@ -26,7 +26,7 @@ function generateRandomIpfsCIDs(): string {
     return ipfsCID;
   }
 
-async function createNewTask(taskName: string) {
+export async function createNewTask(taskName: string) {
   try {
     // Send a transaction to the createNewTask function
     const tx = await helloWorldServiceManager.createNewTask(taskName, 3);
@@ -35,6 +35,7 @@ async function createNewTask(taskName: string) {
     const receipt = await tx.wait();
     
     console.log(`Transaction successful with hash: ${receipt.hash}`);
+    return receipt.hash;
   } catch (error) {
     console.error('Error sending transaction:', error);
   }
@@ -50,4 +51,4 @@ function startCreatingTasks() {
 }
 
 // Start the process
-startCreatingTasks();
+// startCreatingTasks();
