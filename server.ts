@@ -69,7 +69,8 @@ app.get('/api/claims/:taskName/approval-rate', async (req: any, res: any) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const PORT = Number(process.env.PORT) || 3000;
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
-}); 
+  console.log(`Access from other devices using http://10.32.86.7:${PORT}`);
+});
