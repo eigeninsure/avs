@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 
 import { ethers } from "ethers";
+import {privateKeys} from "./utils";
 
 const fs = require('fs');
 const path = require('path');
@@ -29,7 +30,7 @@ function generateRandomIpfsCIDs(): string {
 async function createNewTask(taskName: string) {
   try {
     // Send a transaction to the createNewTask function
-    const tx = await helloWorldServiceManager.createNewTask(taskName, 1);
+    const tx = await helloWorldServiceManager.createNewTask(taskName, 3);
     
     // Wait for the transaction to be mined
     const receipt = await tx.wait();

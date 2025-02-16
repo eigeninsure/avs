@@ -13,7 +13,7 @@ if (!Object.keys(process.env).length) {
 
 // Setup env variables
 const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
-const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY_1!, provider);
 /// TODO: Hack
 let chainId = 31337;
 
