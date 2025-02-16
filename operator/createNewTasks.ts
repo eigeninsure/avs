@@ -21,20 +21,21 @@ const helloWorldServiceManager = new ethers.Contract(helloWorldServiceManagerAdd
 
 // Function to generate random names
 function generateRandomIpfsCIDs(): string {
-    const ipfsCIDs = ['bafkreiepinbumzepnoln7co5vea4kf3lcctnqolb3u6bvsellgznymt2uq','QmbJWAESqCsf4RFCqEY7jecCashj8usXiyDNfKtZCwwzGb','QmTwRkpaK31VDeoUbxKamhFCTpZJg7Wc1MMAYXc4hBuWTw','Qme3y7a62idzexE9fVzGCeiRQXGbTPc12of9JyUCUTChE7'];
+    const ipfsCIDs = ['bafkreibqyjlpctjtbyn5gzgndpjeh3vynuyct55pwtizgmk5z655j6zbdy','bafkreiepinbumzepnoln7co5vea4kf3lcctnqolb3u6bvsellgznymt2uq'];
     const ipfsCID = ipfsCIDs[Math.floor(Math.random() * ipfsCIDs.length)];
     return ipfsCID;
   }
 
-async function createNewTask(taskName: string) {
+export async function createNewTask(taskName: string, voteThreshold: number = 1) {
   try {
     // Send a transaction to the createNewTask function
-    const tx = await helloWorldServiceManager.createNewTask(taskName, 3);
+    const tx = await helloWorldServiceManager.createNewTask(taskName, voteThreshold);
     
     // Wait for the transaction to be mined
     const receipt = await tx.wait();
     
     console.log(`Transaction successful with hash: ${receipt.hash}`);
+    return receipt.hash;
   } catch (error) {
     console.error('Error sending transaction:', error);
   }
@@ -50,4 +51,4 @@ function startCreatingTasks() {
 }
 
 // Start the process
-startCreatingTasks();
+// startCreatingTasks();

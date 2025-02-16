@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 
 import { Contract } from "ethers";
 import { ethers } from "ethers";
+
 const fs = require('fs');
 const path = require('path');
 dotenv.config();
@@ -29,6 +30,8 @@ export const ABIS = {
 
 // Initialize provider
 export const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
+export const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
+export const contracts = createContracts(wallet);
 
 // Helper function to create contract instances
 export function createContracts(wallet: ethers.Wallet) {
