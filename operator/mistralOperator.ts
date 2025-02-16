@@ -17,7 +17,7 @@ async function claimDecision(ipfsCid: string): Promise<boolean> {
           messages: [{ role: 'user', content: `Analyze the following insurance claim. Respond with either approved, or denied. Deny if the claim content is not an insurance claim, or if the claim amount is much higher the expected amount for the accident. Otherwise, approve.
             Insurance claim details: ${ipfsContent}` }],
         });
-        console.log(chatResponse);
+        // console.log(chatResponse);
         if (chatResponse && chatResponse?.choices && chatResponse.choices.length > 0) {
           const response = chatResponse.choices[0].message.content as string;
           if (response.toLowerCase().includes('approve')) {

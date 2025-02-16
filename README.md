@@ -78,9 +78,9 @@ npm run deploy:hello-world
 npm run extract:abis
 
 # run the three operators individually in their own terminal
-ts-node operator/index.ts
+ts-node operator/randomOperator.ts
 ts-node operator/mistralOperator.ts
-ts-node operator/index.ts
+ts-node operator/openaiOperator.ts
 
 ```
 
