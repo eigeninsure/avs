@@ -1,7 +1,6 @@
 import * as dotenv from "dotenv";
 
 import { ethers } from "ethers";
-import {privateKeys} from "./utils";
 
 const fs = require('fs');
 const path = require('path');
