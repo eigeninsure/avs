@@ -1,4 +1,4 @@
-import { createContracts, getIPFSContent, provider, registerOperator, signAndRespondToTask } from './utils';
+import { createContracts, provider, registerOperator, signAndRespondToTask } from './utils';
 
 import { ethers } from 'ethers';
 
