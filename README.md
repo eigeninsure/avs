@@ -79,7 +79,7 @@ npm run extract:abis
 
 # run the three operators individually in their own terminal
 ts-node operator/index.ts
-ts-node operator/index.ts
+ts-node operator/mistralOperator.ts
 ts-node operator/index.ts
 
 ```
