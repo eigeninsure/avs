@@ -38,6 +38,14 @@ app.post('/api/tasks', async (req: any, res: any) => {
   }
 });
 
+app.get('/', async (req: any, res: any) => {
+  return res.json({
+    status: 'Online',
+    message: `This API works.`
+  });
+});
+
+
 app.get('/api/claims/:taskName/approval-rate', async (req: any, res: any) => {
   const { taskName } = req.params;
   
@@ -69,7 +77,7 @@ app.get('/api/claims/:taskName/approval-rate', async (req: any, res: any) => {
 });
 
 // Start the server
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 4000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Access from other devices using http://10.32.86.7:${PORT}`);
