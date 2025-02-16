@@ -14,6 +14,9 @@ const taskNameToIndex: Map<string, number> = new Map();
 app.post('/api/tasks', async (req: any, res: any) => {
   try {
     const { taskName, voteThreshold } = req.body;
+
+    console.log(`Creating task for: ${taskName} with vote threshold ${voteThreshold}`)
+
     if (!taskName) {
       return res.status(400).json({ error: 'taskName is required' });
     }
@@ -48,6 +51,8 @@ app.get('/', async (req: any, res: any) => {
 
 app.get('/api/claims/:taskName/approval-rate', async (req: any, res: any) => {
   const { taskName } = req.params;
+
+  console.log(`Checking approval rate for: ${taskName}`)
   
   if (!taskNameToIndex.has(taskName)) {
     return res.json({ 
