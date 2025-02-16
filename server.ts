@@ -14,6 +14,9 @@ const taskNameToIndex: Map<string, number> = new Map();
 app.post('/api/tasks', async (req: any, res: any) => {
   try {
     const { taskName, voteThreshold } = req.body;
+
+    console.log(`Creating task for: ${taskName} with vote threshold ${voteThreshold}`)
+
     if (!taskName) {
       return res.status(400).json({ error: 'taskName is required' });
     }
@@ -38,8 +41,18 @@ app.post('/api/tasks', async (req: any, res: any) => {
   }
 });
 
+app.get('/', async (req: any, res: any) => {
+  return res.json({
+    status: 'Online',
+    message: `This API works.`
+  });
+});
+
+
 app.get('/api/claims/:taskName/approval-rate', async (req: any, res: any) => {
   const { taskName } = req.params;
+
+  console.log(`Checking approval rate for: ${taskName}`)
   
   if (!taskNameToIndex.has(taskName)) {
     return res.json({ 
@@ -69,7 +82,7 @@ app.get('/api/claims/:taskName/approval-rate', async (req: any, res: any) => {
 });
 
 // Start the server
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 4000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Access from other devices using http://10.32.86.7:${PORT}`);

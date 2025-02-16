@@ -77,6 +77,9 @@ npm run deploy:hello-world
 # (Optional) Update ABIs
 npm run extract:abis
 
+# start server
+ts-node server.ts
+
 # run the three operators individually in their own terminal
 ts-node operator/mistralOperator.ts
 ts-node operator/openaiOperator.ts
